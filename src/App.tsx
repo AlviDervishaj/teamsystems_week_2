@@ -13,12 +13,18 @@ type AddTodoProps = {
 
 
 function App() {
-  const [todos, setTodos] = useState<TodoType[]>([]);
+  const [todos, setTodos] = useState<TodoType[]>(InitialTodos);
 
   useEffect(() => {
-    setTodos(InitialTodos);
+    const _localTodos = localStorage.getItem("todos");
+    // load items from localStorage
+    if (_localTodos) {
+      const localTodos: TodoType[] = JSON.parse(_localTodos) as TodoType[];
+      setTodos(localTodos);
+    }
   }, [])
 
+  // Load into localStorage before un-mouting component
   useEffect(() => {
     const saveTodos = () => {
       localStorage.setItem("todos", JSON.stringify(todos));
@@ -29,6 +35,13 @@ function App() {
       window.removeEventListener("beforeunload", saveTodos);
     }
   }, [todos]);
+
+  const updateTodo = (_todo: TodoType) => {
+    const updatedTodos: TodoType[] = todos.map((todo) => {
+      return todo.id === _todo.id ? _todo : todo;
+    });
+    setTodos(updatedTodos);
+  }
 
   const addTodo = ({ title, description }: AddTodoProps) => {
     const newTodo: TodoType = {
@@ -46,7 +59,7 @@ function App() {
   return (
     <main className="w-dvw h-dvh p-4">
       <AddTodo addTodo={addTodo} />
-      <Todos todos={todos} />
+      <Todos todos={todos} updateTodo={updateTodo}/>
     </main>
   )
 }

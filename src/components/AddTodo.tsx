@@ -18,10 +18,12 @@ export const AddTodo = ({ addTodo }: addTodoFunction) => {
 
   const handleNewTodo = () => {
     const title = titleRef.current?.value;
-    const description = titleRef.current?.value;
+    const description = descriptionRef.current?.value;
     if (!title) return;
     if (!description) return;
     addTodo({ title, description });
+    titleRef.current.value = "";
+    descriptionRef.current.value = "";
   }
 
   return (
