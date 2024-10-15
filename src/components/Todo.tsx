@@ -8,6 +8,7 @@ import { useDebounceCallback } from "usehooks-ts";
 dayjs.extend(relativeTime);
 export const Todo = ({ todo, updateTodo }: { todo: TodoType, updateTodo: (_todo: TodoType) => void }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  // Mark current Todo as Completed
   const markTodoAsCompleted = () => {
     const _todo: TodoType = {
       ...todo,
@@ -15,7 +16,7 @@ export const Todo = ({ todo, updateTodo }: { todo: TodoType, updateTodo: (_todo:
     }
     updateTodo(_todo);
   }
-  // debounce to save app from too many re-renders  
+  // debounce to save app from too many re-renders
   const updateRef = useDebounceCallback((value: string) => {
     const newT: TodoType = { ...todo, title: value };
     updateTodo(newT);
