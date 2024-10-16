@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
 import { Todo as TodoType } from "../../types";
-import { InitialTodos } from "../utils";
 import { v4 } from "uuid";
 import dayjs from "dayjs";
 import { AddTodo } from "./AddTodo";
 import { Todos } from "./Todos";
+import { useGet } from "../hooks/useGet";
+import { InitialTodos } from "../utils";
 
 type AddTodoProps = {
   title: TodoType["title"],
@@ -12,16 +13,24 @@ type AddTodoProps = {
 }
 
 export const TodosWrapper = () => {
+  const { data, isLoading, error, revalidate } = useGet<TodoType[]>(import.meta.env.VITE_TODO_URL as string);
   const [todos, setTodos] = useState<TodoType[]>(InitialTodos);
 
+  // Fetch from Todo Url
   useEffect(() => {
-    const _localTodos = localStorage.getItem("todos");
+    revalidate();
+  }, [revalidate]);
+
+  useEffect(() => {
+    const _localTodos: string | null = localStorage.getItem("todos");
     // load items from localStorage
     if (_localTodos) {
       const localTodos: TodoType[] = JSON.parse(_localTodos) as TodoType[];
       setTodos(localTodos);
+      return;
     }
-  }, [])
+    else if (data) return setTodos(data);
+  }, [data])
 
   const saveTodos = useCallback(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
@@ -60,8 +69,12 @@ export const TodosWrapper = () => {
 
   return (
     <>
-      <AddTodo addTodo={addTodo} />
-      <Todos todos={todos} updateTodo={updateTodo} />
+      {isLoading ? <p className="text-2xl tracking-wide text-center text-slate-100">Loading..</p> :
+        <>
+          <AddTodo addTodo={addTodo} />
+          <Todos todos={todos} updateTodo={updateTodo} />
+        </>
+      }
     </>
   )
 
