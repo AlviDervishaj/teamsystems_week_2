@@ -6,7 +6,7 @@ export function useGet<T>(url: string) {
 
   const revalidate = useCallback(() => {
     setIsLoading(true);
-    fetch(url)
+    fetch(url, { method: "GET" })
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((error) => setError(`${error}`))

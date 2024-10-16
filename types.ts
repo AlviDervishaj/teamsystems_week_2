@@ -1,11 +1,11 @@
-import { Dayjs } from "dayjs";
-
 export type Todo = {
-  id: string,
+  id: number,
   title: string,
   description: string,
-  timestamp: number,
-  createdAt: Dayjs,
-  editedAt: Dayjs | null,
   completed: boolean,
+}
+
+export type CreateTodoType = {
+  title: string,
+  description: string,
 }

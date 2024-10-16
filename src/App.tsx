@@ -1,6 +1,4 @@
 // import { TodosWrapper } from "./components/TodosWrapper";
-
-import { ExerciseTwo } from "./components/ExerciseTwo"
 import { TodosWrapper } from "./components/TodosWrapper"
 
 function App() {

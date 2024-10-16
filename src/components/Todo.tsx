@@ -22,11 +22,10 @@ export const Todo = ({ todo, updateTodo }: { todo: TodoType, updateTodo: (_todo:
     updateTodo(newT);
   }, 500)
   return (
-    <div   className="flex flex-row items-center content-center justify-between p-3 border border-slate-300 w-full h-fit rounded-lg">
+    <div className="flex flex-row items-center content-center justify-between p-3 border border-slate-300 w-full h-fit rounded-lg">
       <div className="w-full flex flex-col items-start content-center justify-center gap-2 pr-4">
         <input onChange={(event) => updateRef(event.target.value)} ref={inputRef} defaultValue={todo.title} className={`${todo.completed ? "line-through" : "decoration-none"} text-xl w-full bg-transparent text-slate-200 outline-none`} />
         <p className="text-xl tracking-wide text-slate-300">{todo.description}</p>
-        <p className="text-xl tracking-wide text-slate-400">{dayjs(todo.createdAt).fromNow()}</p>
       </div>
 
       {todo.completed ? null :
