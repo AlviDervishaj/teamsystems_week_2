@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { Todo as TodoType } from "../../types";
 import { Button } from "./Button";
 import { Input } from "./Input";
@@ -12,7 +12,7 @@ type addTodoFunction = {
   addTodo: ({ title, description }: AddTodoProps) => void
 };
 
-export const AddTodo = ({ addTodo }: addTodoFunction) => {
+export const AddTodo = memo(({ addTodo }: addTodoFunction) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
 
@@ -28,9 +28,9 @@ export const AddTodo = ({ addTodo }: addTodoFunction) => {
 
   return (
     <section className="w-9/12 mx-auto flex flex-col items-center content-center justify-center gap-4">
-      <Input ref={titleRef} placeholder="Todo title..."/>
-      <Input ref={descriptionRef} placeholder="Description title..."/>
+      <Input ref={titleRef} placeholder="Todo title..." />
+      <Input ref={descriptionRef} placeholder="Description title..." />
       <Button onClick={handleNewTodo}>Add New Todo</Button>
     </section>
   )
-}
+});

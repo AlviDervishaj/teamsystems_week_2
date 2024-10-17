@@ -1,5 +1,4 @@
-// import { TodosWrapper } from "./components/TodosWrapper";
-import { TodosWrapper } from "./components/TodosWrapper"
+import { TodosWrapper } from "./components/TodosWrapper";
 
 function App() {
   return (

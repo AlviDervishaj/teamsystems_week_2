@@ -8,12 +8,12 @@ export const Todo = ({ todo, updateTodo, deleteTodo }: { todo: TodoType, updateT
 
   // Mark current Todo as Completed
   const markTodoAs = useCallback((_completed: boolean) => {
-    const _todo: TodoType = {
-      ...todo,
+    const _todo: Partial<TodoType> = {
+      id: todo.id,
       completed: _completed,
     }
     updateTodo(_todo);
-  }, [updateTodo, todo]);
+  }, [updateTodo, todo.id]);
 
   const handleNewTitleChange = useDebounceCallback((value: string) => {
     setNewTitle(value);
@@ -41,8 +41,10 @@ export const Todo = ({ todo, updateTodo, deleteTodo }: { todo: TodoType, updateT
     deleteTodo(todo.id);
   }, [deleteTodo, todo.id])
 
+
+
   return (
-    <div className="flex flex-row items-center content-center justify-between p-3 border border-slate-300 w-full h-fit rounded-lg">
+    <div className={`${todo.completed ? "order-last opacity-50" : "order-first opacity-100"} flex flex-row items-center content-center justify-between p-3 border border-slate-300 w-full h-fit rounded-lg`}>
       <div className="w-full flex flex-col items-start content-center justify-center gap-2 pr-4">
         <input onChange={(event) => handleNewTitleChange(event.target.value)} defaultValue={newTitle} className={`${todo.completed ? "line-through" : "decoration-none"} text-xl w-full bg-transparent text-slate-200 outline-none`} />
         <p className="text-xl tracking-wide text-slate-300">{todo.description}</p>
@@ -60,7 +62,7 @@ export const Todo = ({ todo, updateTodo, deleteTodo }: { todo: TodoType, updateT
       <Button onClick={handleTodoDeletion}>
         <img src="remove.png" alt="Delete Todo" className="w-8 max-w-8 h-8 max-h-8" />
       </Button>
-      {hasChanges && <Button onClick={changeTitle}>Save Changes</Button>}
+      {hasChanges && <Button onClick={changeTitle} className="inline text-lg">Save</Button>}
     </div>
   );
 }
